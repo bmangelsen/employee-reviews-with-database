@@ -1,19 +1,15 @@
 require 'active_record'
 require 'sqlite3'
-
-ActiveRecord::Base.establish_connection({
-  adapter: 'sqlite3',
-  database: 'employee_reviews.sqlite3'
-  })
+require_relative 'db_connection'
 
 class InitialMigration < ActiveRecord::Migration[5.0]
 
   def change
-    create_table :department do |t|
+    create_table :departments do |t|
       t.string :name
     end
 
-    create_table :employee do |t|
+    create_table :employees do |t|
       t.string :name
       t.string :email
       t.string :phone
@@ -23,11 +19,3 @@ class InitialMigration < ActiveRecord::Migration[5.0]
   end
 
 end
-
-
-begin
-  InitialMigration.migrate(:down)
-rescue
-end
-
-InitialMigration.migrate(:up)
