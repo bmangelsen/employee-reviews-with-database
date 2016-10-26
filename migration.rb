@@ -14,6 +14,7 @@ class InitialMigration < ActiveRecord::Migration[5.0]
       t.string :email
       t.string :phone
       t.float :salary
+      t.boolean :satisfactory
       t.integer :department_id
     end
   end
