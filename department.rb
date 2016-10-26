@@ -3,27 +3,20 @@ require 'active_record'
 
 
 class Department < ActiveRecord::Base
-  #attr_reader :name, :staff, :review
 
-  # def initialize(department_name)
-  #   @name = department_name
-  #   @staff = []
-  # end
-
-  # def add_employee(new_employee)
-  #   @staff << new_employee
-  # end
-
-  def department_salary
-    @staff.reduce(0.0) {|sum, e| sum + e.salary}
+  def add_employee(new_employee)
+    new_employee.department_id = self.id
+    new_employee.save
   end
 
-  def add_employee_review(review)
-    @review = review
+  def department_salary
+    a = Employee.where(department_id: self.id).to_a
+    a.reduce(0.0) {|sum, e| sum + e.salary}
   end
 
   def department_raise(alloted_amount)
-    raise_eligible = @staff.select {|e| yield(e)}
+    a = Employee.where(department_id: self.id).to_a
+    raise_eligible = a.select {|e| yield(e)}
     amount = alloted_amount / raise_eligible.length
     raise_eligible.each {|e| e.raise_by_amount(amount)}
   end
