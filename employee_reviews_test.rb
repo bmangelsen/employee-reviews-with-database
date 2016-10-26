@@ -110,7 +110,7 @@ class EmployeeReviews < Minitest::Test
     assert xavier.satisfactory
   end
 
-  def test_return_total_department_employees
+  def test_total_department_employees
     a = Department.create!(name: "Marketing")
     xavier = Employee.create!(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
     new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
@@ -132,7 +132,7 @@ class EmployeeReviews < Minitest::Test
     assert_equal old_employee, a.least_paid_employee
   end
 
-  def test_alphabetical_department_employees
+  def test_sort_employees_alphabetically
     a = Department.create!(name: "Marketing")
     xavier = Employee.create!(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
     new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
