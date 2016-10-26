@@ -33,4 +33,10 @@ class Department < ActiveRecord::Base
     low_to_high_salaries = employees.sort_by {|employee| employee.salary}
     low_to_high_salaries[0]
   end
+
+  def sort_employees_alphabetically
+    employees = department_employees
+    alphabetical_employees = employees.sort_by {|employee| employee.name}
+  end
+
 end
