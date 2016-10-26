@@ -39,4 +39,16 @@ class Department < ActiveRecord::Base
     alphabetical_employees = employees.sort_by {|employee| employee.name}
   end
 
+  def employees_higher_than_average_salary
+    employees = department_employees
+    average = department_salary / employees.count
+    higher_than_average = []
+    employees.each do |employee|
+      if employee.salary > average
+        higher_than_average << employee
+      end
+    end
+    higher_than_average
+  end
+
 end
