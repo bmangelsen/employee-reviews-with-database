@@ -58,60 +58,54 @@ class EmployeeReviews < Minitest::Test
     a = Department.create!(name: "Marketing")
     new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     old_employee = Employee.create!(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
-    new_employee.department_id = a.id
-    old_employee.department_id = a.id
+    a.add_employee(new_employee)
+    a.add_employee(old_employee)
     assert_equal 90000.00, a.department_salary
   end
 
   def test_add_employee_review
-skip
-    xavier = Employee.new(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    xavier = Employee.create!(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
     assert xavier.add_employee_review(positive_review_one)
   end
 
   def test_set_employee_performance
-skip
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
-    old_employee = Employee.new(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 4000.00)
-    new_employee.set_employee_performance(true)
-    old_employee.set_employee_performance(false)
+    new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    old_employee = Employee.create!(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 4000.00)
+    new_employee.satisfactory = true
+    old_employee.satisfactory = false
     assert new_employee.satisfactory
     refute old_employee.satisfactory
   end
 
   def test_give_raise_by_percent
-skip
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     assert_equal 54000, new_employee.raise_by_percent(0.08)
   end
 
   def test_give_raise_by_amount
-skip
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     assert_equal 60000, new_employee.raise_by_amount(10000)
   end
 
   def test_department_raises_based_on_criteria
-skip
-    a = Department.new("Marketing")
-    xavier = Employee.new(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
-    old_employee = Employee.new(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
+    a = Department.create!(name: "Marketing")
+    xavier = Employee.create!(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    old_employee = Employee.create!(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
     a.add_employee(xavier)
     a.add_employee(new_employee)
     a.add_employee(old_employee)
-    xavier.set_employee_performance(true)
-    new_employee.set_employee_performance(true)
-    old_employee.set_employee_performance(false)
+    xavier.update(satisfactory: true)
+    new_employee.update(satisfactory: true)
+    old_employee.update(satisfactory: false)
     a.department_raise(14000.00) {|e| e.satisfactory == true && e.salary < 60000.00}
-    assert_equal 70000.00, xavier.salary
-    assert_equal 64000.00, new_employee.salary
-    assert_equal 40000.00, old_employee.salary
+    assert_equal 70000.00, xavier.reload.salary
+    assert_equal 64000.00, new_employee.reload.salary
+    assert_equal 40000.00, old_employee.reload.salary
   end
 
   def test_evaluate_employee_review
-skip
-    xavier = Employee.new(name: 'Xavier', email: 'ProfX@marvel.com', phone: '911', salary: 70000.00)
+    xavier = Employee.create!(name: 'Xavier', email: 'ProfX@marvel.com', phone: '911', salary: 70000.00)
     xavier.add_employee_review(positive_review_one)
     assert xavier.satisfactory
   end
