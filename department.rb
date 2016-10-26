@@ -27,4 +27,10 @@ class Department < ActiveRecord::Base
     employees = department_employees
     employees.count
   end
+
+  def least_paid_employee
+    employees = department_employees
+    low_to_high_salaries = employees.sort_by {|employee| employee.salary}
+    low_to_high_salaries[0]
+  end
 end
